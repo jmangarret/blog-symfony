@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    const REGISTRO_EXITOSO = 'Registrado con éxito!';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -38,6 +39,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=100)
      */
     private $name;
+
+    public function __construct()
+    {
+        $this->roles = ["ROLE_USER"];
+    }
 
     public function getId(): ?int
     {

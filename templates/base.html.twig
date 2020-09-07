@@ -7,6 +7,10 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <div class="container">        
+
+        {% include 'menu.html.twig' %}
+  
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
@@ -14,6 +18,8 @@
         {% endfor %}
 
         {% block body %}{% endblock %}
+        </div>
+    
         <script src="{{ asset('build/app.js') }}"></script>  
         {% block javascripts %}{% endblock %}
     </body>

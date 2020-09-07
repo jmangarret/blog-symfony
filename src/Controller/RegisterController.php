@@ -24,11 +24,10 @@ class RegisterController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $password = $passwordEncoder->encodePassword($user, $form['password']->getData());
             $user->setPassword($password);
-            $user->setRoles(["ROLE_USER"]);
             $em->persist($user);
             $em->flush();
             
-            $this->addFlash('success','Registrado con éxito!');
+            $this->addFlash('success',User::REGISTRO_EXITOSO);
 
             return $this->redirectToRoute('register');
         }
