@@ -27,6 +27,7 @@ class PostType extends AbstractType
                         'maxSize' => '5120k',
                         'mimeTypes' => [
                             'image/jpg',
+                            'image/jpeg',
                             'image/png',
                             'image/bmp',
                         ],

@@ -65,12 +65,41 @@ class PostController extends AbstractController
         $em   = $this->getDoctrine()->getManager();
         $post = $em->getRepository(Post::class)->find($id);
 
-        //$post = $em->getRepository(User::class)->findAll();
-        //dump($post->getUser()->getName()); die();
         $posts = $em->getRepository(Post::class)->findAll();
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'posts' => $posts,
+        ]);
+    }
+
+    /**
+     * @Route("/post/edit/{id}", name="posts_edit")
+     */
+    public function edit($id, Request $request, FileUploader $fileUploader)
+    {
+        $em   = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(Post::class)->find($id);
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+        if (($form->isSubmitted()) && ($form->isValid())) {
+            $file = $form['image']->getData();
+            if ($file) {
+                $imageFileName = $fileUploader->upload($file);
+                $post->setImage($imageFileName);
+            }
+
+            $user = $em->getRepository(User::class)->find($this->getUser());
+            $user->addPost($post);
+            $em->persist($post);
+            $em->flush();
+
+            $this->addFlash('success', Post::EDITADO_EXITOSO);
+
+            return $this->redirectToRoute('posts');
+        }
+        
+        return $this->render('post/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

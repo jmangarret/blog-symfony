@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     const REGISTRO_EXITOSO = 'Post publicado con éxito!';
+    const EDITADO_EXITOSO = 'Post editado con éxito!';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
