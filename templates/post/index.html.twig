@@ -1,25 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    
-    <h1>Últimos Posts Publicados!</h1>
+{% block body %}    
+    <div class="row">
+        <div class="col-md-3">
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        <a href="{{ path('posts_show', {'id': post.id}) }}" class="btn-link">
+                            {{ post.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-9">
+            {% for post in posts %}
+                <section>
+                    <h3 class="text-center">
+                        <a href="{{ path('posts_show', {'id': post.id}) }}" class="btn-link">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    <div class="text-center">
+                        <img src="{{ asset('uploads/posts/') }}{{ post.image }}" style="width: 100px" alt="">
+                    </div>
+                    
+                    <i> {{ post.user }} / {{ post.createdAt|date("d/m/Y") }}</i>
 
-    <ul>
-        {% for post in posts %}
-            <li>
-                <img src="{{ asset('uploads/posts/') }}{{ post.image }}" style="width: 100px" alt="">
-                <h3>
-                <a href="{{ path('posts_show', {'id': post.id}) }}" class="btn-link">
-                    {{ post.title }}    
-                </a>
-                </h3>
-                <p>
-                    {{ post.content }}    
-                </p>
-                <i>Publicado por {{ post.user }} - Fecha: {{ post.createdAt|date("d/m/Y") }}</i>
-            </li>
-        {% endfor %}
-    </ul>
+                    <p>
+                        {{ post.content }}    
+                    </p>                    
+                </section>
+            {% endfor %}
+        </div>
+    </div>
 
     <a href="/post/create" class="btn btn-primary">Publicar nueva entrada!</a>
 

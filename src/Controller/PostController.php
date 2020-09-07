@@ -62,9 +62,10 @@ class PostController extends AbstractController
     {
         $em   = $this->getDoctrine()->getManager();
         $post = $em->getRepository(Post::class)->find($id);
-
+        $posts = $em->getRepository(Post::class)->findAll();
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'posts' => $posts,
         ]);
     }
 }

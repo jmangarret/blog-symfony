@@ -9,6 +9,9 @@
 import '../css/app.sass';
 
 const $ = require("jquery");
+
+require("popper.js");
+
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 require("bootstrap");
