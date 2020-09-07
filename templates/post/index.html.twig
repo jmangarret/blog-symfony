@@ -12,4 +12,12 @@
             {% endfor %}
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-9 offset-md-3">
+            <div class="navigation">
+                {{ knp_pagination_render(posts) }}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

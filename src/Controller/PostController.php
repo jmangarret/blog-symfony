@@ -9,17 +9,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use Knp\Component\Pager\PaginatorInterface;
 
 class PostController extends AbstractController
 {
     /**
      * @Route("/posts", name="posts")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request)
     {
         $em   = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(Post::class)->findAll();
-
+        $query= $em->getRepository(Post::class)->findAllPaginator();
+        $posts= $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            2 /*limit per page*/
+        );
         return $this->render('post/index.html.twig', [
             'posts' => $posts,
         ]);
