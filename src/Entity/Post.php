@@ -127,7 +127,7 @@ class Post
 
     public function setUser(?User $user): self
     {
-        $this->user_id = $user;
+        $this->user = $user;
 
         return $this;
     }

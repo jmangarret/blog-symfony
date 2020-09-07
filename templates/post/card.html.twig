@@ -1,0 +1,20 @@
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title text-center">{{ post.title }}</h5>
+        
+        <img class="card-img-top mx-auto d-block" src="{{ asset('uploads/posts/') }}{{ post.image }}" style="width: 100px; height: 100px;" alt="">
+        
+        <h6 class="card-subtitle mb-2 text-muted">{{ post.user.name }} / {{ post.createdAt|date("d/m/Y") }}</h6>
+        {% if show %}
+            <p class="card-text">{{ post.content }}</p>
+        {% else %}    
+            <p class="card-text">{{ post.content|slice(1,500) }}</p>
+            <a href="/post/show/{{post.id}}" class="card-link">Leer mas...</a>
+        {% endif %}        
+
+        {% if app.user.id == post.user.id %}    
+            <a href="#" class="card-link">Editar Entrada</a>
+        {% endif %}
+    </div>
+</div>

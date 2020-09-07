@@ -43,7 +43,7 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user_id")
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
      */
     private $posts;
 
@@ -155,7 +155,7 @@ class User implements UserInterface
     {
         if (!$this->posts->contains($post)) {
             $this->posts[] = $post;
-            $post->setUserId($this);
+            $post->setUser($this);
         }
 
         return $this;
@@ -166,8 +166,8 @@ class User implements UserInterface
         if ($this->posts->contains($post)) {
             $this->posts->removeElement($post);
             // set the owning side to null (unless already changed)
-            if ($post->getUserId() === $this) {
-                $post->setUserId(null);
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
             }
         }
 

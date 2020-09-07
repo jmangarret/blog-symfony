@@ -15,7 +15,9 @@
       </li>
     </ul>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        Bienvenido: {{ app.user.email }} | <a href="/logout"> Salir <a/>
+      {{ app.user.email }} |
+      <a href="/post/create" class="btn-link">&nbsp;Nueva entrada&nbsp;</a> |
+      <a href="/logout">&nbsp;Salir<a/>
     {% endif %}
 
   </div>

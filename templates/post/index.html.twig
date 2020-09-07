@@ -1,40 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}    
+{% block body %}
     <div class="row">
         <div class="col-md-3">
-            <ul>
-                {% for post in posts %}
-                    <li>
-                        <a href="{{ path('posts_show', {'id': post.id}) }}" class="btn-link">
-                            {{ post.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% include 'post/list.html.twig' %}
         </div>
         <div class="col-md-9">
+            {% set show = false %}
             {% for post in posts %}
-                <section>
-                    <h3 class="text-center">
-                        <a href="{{ path('posts_show', {'id': post.id}) }}" class="btn-link">
-                            {{ post.title }}
-                        </a>
-                    </h3>
-                    <div class="text-center">
-                        <img src="{{ asset('uploads/posts/') }}{{ post.image }}" style="width: 100px" alt="">
-                    </div>
-                    
-                    <i> {{ post.user }} / {{ post.createdAt|date("d/m/Y") }}</i>
-
-                    <p>
-                        {{ post.content }}    
-                    </p>                    
-                </section>
+                {% include 'post/card.html.twig' %}
             {% endfor %}
         </div>
     </div>
-
-    <a href="/post/create" class="btn btn-primary">Publicar nueva entrada!</a>
-
 {% endblock %}

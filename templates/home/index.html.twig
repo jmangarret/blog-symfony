@@ -17,9 +17,11 @@
             ¡No puedes equivocarte eligiendo Symfony! Y nadie ha sido despedido por usar Symfony.
         </p>
     </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}     
 
-    <a href="/register" class="btn btn-primary">Registrese!</a>
-    ó si ya está registrado haga click en
-    <a href="/login">Iniciar Sesión</a>
-
+    {% else %}
+        <a href="/register" class="btn btn-primary">Registrese!</a>
+        ó si ya está registrado haga click en
+        <a href="/login">Iniciar Sesión</a>
+    {% endif %}
 {% endblock %}

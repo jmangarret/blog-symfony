@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,18 +30,19 @@ class PostController extends AbstractController
     public function create(Request $request, FileUploader $fileUploader)
     {
         $post = new Post();
-        $form =$this->createForm(PostType::class, $post);
-
+        $form = $this->createForm(PostType::class, $post);
+        $em   = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
         if (($form->isSubmitted()) && ($form->isValid())) {
-            $em   = $this->getDoctrine()->getManager();
-            $user = $this->getUser();
             $file = $form['image']->getData();
             if ($file) {
                 $imageFileName = $fileUploader->upload($file);
                 $post->setImage($imageFileName);
             }
-            $post->setUser($user);            
+
+            $user = $em->getRepository(User::class)->find($this->getUser());
+            $user->addPost($post);
+            //$post->setUser= $this->getUser();
             $post->setCreatedAt(new \DateTime());            
             $em->persist($post);
             $em->flush();
@@ -56,12 +58,15 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/post/{id}", name="posts_show")
+     * @Route("/post/show/{id}", name="posts_show")
      */
     public function show($id)
     {
         $em   = $this->getDoctrine()->getManager();
         $post = $em->getRepository(Post::class)->find($id);
+
+        //$post = $em->getRepository(User::class)->findAll();
+        //dump($post->getUser()->getName()); die();
         $posts = $em->getRepository(Post::class)->findAll();
         return $this->render('post/show.html.twig', [
             'post' => $post,

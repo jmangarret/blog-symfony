@@ -29,7 +29,7 @@ class RegisterController extends AbstractController
             
             $this->addFlash('success',User::REGISTRO_EXITOSO);
 
-            return $this->redirectToRoute('register');
+            return $this->redirectToRoute('/login');
         }
 
         return $this->render('register/index.html.twig', [
