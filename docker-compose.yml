@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: nginx-blog
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile-nginx
+        volumes:
+            - ./blog/:/var/www/html/
+        ports:
+            - 8000:80
+        networks:
+            - red-symfony
+        depends_on: 
+            - php
+    php:
+        container_name: symfony-blog
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile-php
+        environment:
+            APP_ENV: dev
+            DATABASE_URL: mysql://root:passroot@mysql-blog:3306/symfony-db
+        expose:
+            - 9000
+        volumes:
+            - ./blog/:/var/www/html/
+        networks:
+            - red-symfony
+        depends_on: 
+            - mysql
+    mysql:
+        container_name: mysql-blog
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - ./data-blog:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: passroot
+            MYSQL_DATABASE: symfony-db
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: passadmin
+        networks:
+            - red-symfony
+        ports:
+            - 3300:3306            
+networks:
+    red-symfony:
+volumes:
+    data-blog:
+    blog:

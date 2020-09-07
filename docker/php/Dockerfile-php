@@ -1,0 +1,30 @@
+FROM php:fpm-stretch
+
+WORKDIR /var/www/html
+
+RUN apt-get update 
+RUN apt-get install -y --no-install-recommends \
+    zlib1g-dev \
+    libxml2-dev \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install \
+    zip \
+    intl \
+    mysql \
+    mysqli \
+    pdo pdo_mysql 
+
+RUN apt-get install -y git
+RUN git config --global user.email "jmangarret@gmail.com"
+RUN git config --global user.name "Jonathan Mangarret"
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer --version \
+
+COPY ./blog/ .
+
+RUN php bin/console doctrine:database:create
+RUN php bin/console doctrine:migrations:migrate
+
+
