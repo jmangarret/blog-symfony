@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <h1>Últimos Posts Publicados!</h1>
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <img src="{{ asset('uploads/posts/') }}{{ post.image }}" style="width: 100px" alt="">
+                <h3>
+                <a href="{{ path('posts_show', {'id': post.id}) }}" class="btn-link">
+                    {{ post.title }}    
+                </a>
+                </h3>
+                <p>
+                    {{ post.content }}    
+                </p>
+                <i>Publicado por {{ post.user }} - Fecha: {{ post.createdAt|date("d/m/Y") }}</i>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/post/create" class="btn btn-primary">Publicar nueva entrada!</a>
+
+{% endblock %}

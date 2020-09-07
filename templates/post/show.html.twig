@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <h1>Post #{{ post.id }}</h1>
+    <ul>
+        <li>
+            <img src="{{ asset('uploads/posts/') }}{{ post.image }}" style="width: 100px" alt="">
+            <h3>
+                {{ post.title }}    
+            </h3>
+            <p>
+                {{ post.content }}    
+            </p>
+        </li>
+    </ul>
+
+{% endblock %}
